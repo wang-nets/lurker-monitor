@@ -1,12 +1,12 @@
-from monitor.libs.collect_base import CollectBase
-from monitor.run import MONITOR_CONF
+# -*- coding: utf-8 -*-
+from monitor.modules.collect import Collect
 import collections
 
-class CpuCollect(CollectBase):
-    def inspect_cpus(self, instance_name):
-        def __init__(self):
-            memory = collections.namedtuple('Memory', ['total', 'used', 'util'])
+CPU_STATS = collections.namedtuple('CPUStats', ['number', 'util'])
 
+
+class CpuCollect(Collect):
+    def collect(self, instance_name):
         domain = self._lookup_by_name(instance_name)
         try:
             (_, _, _, num_cpu, cpu_time_start) = domain.info()
@@ -21,6 +21,6 @@ class CpuCollect(CollectBase):
                 util = 100.0
             if util < 0:
                 util = 0.0
-            return MONITOR_CONF.CPU_STATS(number=num_cpu, util=str(util))
-        except libvirt.libvirtError:
+            return CPU_STATS(number=num_cpu, util=str(util))
+        except self.libvirt.libvirtError:
             pass

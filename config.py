@@ -5,18 +5,10 @@ import collections
 
 class Config(object):
     #Rabbitmq
-    LIBVIRT = None
-    LIBVIRT_TYPE = 'kvm'
-    LIBVIRT_URI = ''
-    INSTANCES = collections.namedtuple('Instance', ['name', 'UUID', 'state'])
-    CPU_STATS = collections.namedtuple('CPUStats', ['number', 'util'])
-    INTERFACE = collections.namedtuple('Interface', ['name', 'mac', 'fref', 'parameters'])
-    INTERFACE_STATS = collections.namedtuple('InterfaceStats', ['rx_bytes', 'rx_packets', 'tx_bytes', 'tx_packets'])
-    DISK = collections.namedtuple('Disk', ['device'])
-    DISK_STATS = collections.namedtuple('DiskStats',
-                                       ['read_bytes', 'read_requests', 'write_bytes', 'write_requests', 'errors'])
-    DISK_SIZE = collections.namedtuple('DiskSize', ['total', 'allocation', 'physical'])
+    FALCON_AGENT = ''
 
+    MONITOR_ITEM = ['cpu', 'disk', 'mem', 'net']
+    MONITOR_INTERVAL = 1
 
     LOG_CFG = {
         'version': 1,

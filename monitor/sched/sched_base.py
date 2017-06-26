@@ -1,21 +1,22 @@
 #! -*- coding: UTF-8 -*-
 import abc
-from datetime import datetime
 import logging
+from datetime import datetime
+from monitor.commons.utils import ModuleLoader
 from apscheduler.schedulers.background import BackgroundScheduler
-from monitor.run import MONITOR_CONF
 from monitor.sched import singleton
-LOG = logging.getLogger('lurker_monitor')
+from app import MONITOR_CONF
+LOG = logging.getLogger('monitor')
 
 
 @singleton
 class SchedRegistry(object):
 
     def __init__(self):
-        self._jobstores = CONF.SCHED.jobstores
-        self._executors = CONF.SCHED.executors
         self._sched = BackgroundScheduler()
-        jobs = ModuleLoader.load_modules(CONF.SCHED.job_classes)
+        monitor_class = map(lambda module: "monitor.sched.sched_collect.%sCollectScduler" % module.capitalize(),
+                            [item for item in MONITOR_CONF.MONITOR_ITEM])
+        jobs = ModuleLoader.load_modules(monitor_class)
         for job in jobs:
             self.add_job(job())
 
@@ -32,7 +33,7 @@ class SchedRegistry(object):
         LOG.debug('The scheduler started successfully.')
 
     def sched_stop(self):
-        self._sched.shutdown(wait=CONF.SCHED.shutdown_wait)
+        self._sched.shutdown(wait=30)
 
 
 class AbstractScheduler(object):
@@ -40,8 +41,8 @@ class AbstractScheduler(object):
     def __init__(self, sched_name=None):
         self._name = sched_name if sched_name is not None else self.__class__.__name__
         self._interval = 1
-        self._trigger_type = CONF.SCHED.trigger_type
-        self._trigger_unit = CONF.SCHED.trigger_unit
+        self._trigger_type = 'interval'
+        self._trigger_unit = 'minutes'
         self._next_run_time = datetime.now()
 
     def get_name(self):
