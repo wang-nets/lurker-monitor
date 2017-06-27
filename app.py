@@ -5,8 +5,9 @@ import logging
 import logging.config
 LOG = logging.getLogger("monitor")
 
+app = Flask(__name__)
+
 def create_app(config_name):
-    app = Flask(__name__)
     app.config.from_object(CONF[config_name])
     from logging import Formatter, handlers
     from logging.handlers import RotatingFileHandler

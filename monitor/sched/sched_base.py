@@ -5,7 +5,7 @@ from datetime import datetime
 from monitor.commons.utils import ModuleLoader
 from apscheduler.schedulers.background import BackgroundScheduler
 from monitor.sched import singleton
-from flask import current_app
+from app import app
 LOG = logging.getLogger('monitor')
 
 
@@ -15,7 +15,7 @@ class SchedRegistry(object):
     def __init__(self):
         self._sched = BackgroundScheduler()
         monitor_class = map(lambda module: "monitor.sched.sched_collect.%sCollectScduler" % module.capitalize(),
-                            [item for item in current_app.config.get('MONITOR_ITEM')])
+                            [item for item in app.config.get('MONITOR_ITEM')])
         jobs = ModuleLoader.load_modules(monitor_class)
         for job in jobs:
             self.add_job(job())
