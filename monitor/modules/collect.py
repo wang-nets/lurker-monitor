@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from monitor.exceptions import InstanceNotFoundException, InspectorException
 import collections
-import libvirt-python
 import abc
 
 LIBVIRT = None

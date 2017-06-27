@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from config import CONF
+from flask import Flask
 import logging
 import logging.config
-
 LOG = logging.getLogger("monitor")
 
-MONITOR_CONF = CONF['default']
-
-
-def main():
+def create_app(config_name):
+    app = Flask(__name__)
+    app.config.from_object(CONF[config_name])
     from logging import Formatter, handlers
     from logging.handlers import RotatingFileHandler
     from logging import StreamHandler
@@ -88,15 +87,15 @@ def main():
             }
         """
 
-        if MONITOR_CONF.debug:
-            if MONITOR_CONF.LOG_CFG:
+        if app.config.get('debug'):
+            if app.config.get('LOG_CFG'):
                 # initialize the Flask logger (removes all handlers)
-                logging.config.dictConfig(MONITOR_CONF.LOG_CFG)
+                logging.config.dictConfig(app.config.get('LOG_CFG'))
             else:
                 # capability with previous config settings
                 # Should have LOG_FILE and LOG_LEVEL set
-                if MONITOR_CONF.get('LOG_FILE') is not None:
-                    handler = RotatingFileHandler(MONITOR_CONF.LOG_FILE, maxBytes=10000000, backupCount=100)
+                if app.config.get('LOG_FILE')is not None:
+                    handler = RotatingFileHandler(app.config.get('LOG_FILE'), maxBytes=10000000, backupCount=100)
                 else:
                     handler = StreamHandler(stream=sys.stderr)
 
@@ -104,7 +103,16 @@ def main():
                     Formatter('%(asctime)s %(levelname)s: %(message)s '
                               '[in %(pathname)s:%(lineno)d]')
                 )
-                logging.getLogger(__name__).setLevel(MONITOR_CONF.LOG_LEVEL)
+                logging.getLogger(__name__).setLevel(app.config.get('LOG_LEVEL', 'debug'))
                 logging.getLogger(__name__).addHandler()
 
     setup_logging()
+
+    from monitor.sched.sched_base import SchedRegistry
+    sched = SchedRegistry()
+    sched.sched_start()
+
+    app.run('0.0.0.0', debug=False)
+
+if __name__ == '__main__':
+    create_app('default')

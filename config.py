@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
-import collections
+
 
 class Config(object):
     #Rabbitmq
@@ -25,7 +25,7 @@ class Config(object):
                 'class': 'logging.handlers.GroupWriteRotatingFileHandler',
                 'level': 'DEBUG',
                 'formatter': 'standard',
-                'filename': '/home/dispatcher/log/dispatcher.log',
+                'filename': '/var/log/monitor/monitor.log',
                 #'filename': 'c://var//log//cloudispatcher//dispatcher.log',
                 'maxBytes': 10485760,
                 'backupCount': 100,
