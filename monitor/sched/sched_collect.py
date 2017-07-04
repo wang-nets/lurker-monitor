@@ -24,8 +24,6 @@ class NetCollectService(Thread):
                 for nic in vnics:
                     falcon.push(endpoint, 'net.if.out.bytes', 60,
                                 nic[1].tx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
-                    print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'net.if.out.bytes', 60,
-                                                                              nic[1].tx_bytes)
                     falcon.push(endpoint, 'net.if.in.bytes', 60,
                                 nic[1].rx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
                     falcon.push(endpoint, 'net.if.out.packets', 60,
@@ -49,8 +47,7 @@ class CpuCollectService(Thread):
                 cpu_idle = 100 - float(vcpus.util)
                 falcon.push(endpoint, 'cpu.idle', 60,
                             cpu_idle, 'GAUGE')
-                print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'cpu.idle', 60,
-                                                                          cpu_idle)
+
         except Exception as e:
             LOG.error('Collect cpu info failed: %s' % traceback.format_exc())
 
@@ -68,7 +65,10 @@ class DiskCollectService(Thread):
                 endpoint = instance.name
                 for disk in disks:
                     #df.bytes.free.percent/fstype=ext4,mount=/boot
-                    used_percent = disk[2].physical / disk[2].total
+                    if disk[2].total == 0:
+                        used_percent = 0
+                    else:
+                        used_percent = disk[2].physical / disk[2].total
                     falcon.push(endpoint, 'disk.bytes.free.percent', 60,
                                 used_percent, 'GAUGE', 'dev=%s' % disk[0].device)
                     #disk.io.read_requests/device=sda
@@ -90,11 +90,13 @@ class MemCollectService(Thread):
             for instance in collect.inspect_instances():
                 mems = collect.collect(instance.name)
                 endpoint = instance.name
-                memory_idle = (mems.total - mems.used) / mems.total
-                #falcon.push(endpoint, 'mem.memfree.percent', 60,
-                #            memory_idle, 'GAUGE')
-                print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'mem.memfree.percent', 60,
-                                                                          memory_idle)
+                if mems.total == 0:
+                    memory_idle = 0
+                else:
+                    memory_idle = (mems.total - mems.used) / mems.total
+                falcon.push(endpoint, 'mem.memfree.percent', 60,
+                            memory_idle, 'GAUGE')
+
         except Exception as e:
             LOG.error("Collect memory info failed: %s" % traceback.format_exc())
 

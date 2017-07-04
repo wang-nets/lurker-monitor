@@ -9,10 +9,10 @@ LOG = logging.getLogger("monitor")
 
 
 class Falcon(object):
-    def push(self, endpoint, metric, step, value, coutertype, tags = None):
+    def push(self, endpoint, metric, step, value, countertype, tags = None):
         try:
             falcon_agent = GLOBAL_CONFIG.FALCON_AGENT
-            payload = self._format_data(endpoint, metric, step, value, coutertype, tags)
+            payload = self._format_data(endpoint, metric, step, value, countertype, tags)
             req = requests.post(falcon_agent, data=json.dumps(payload))
             if req.status_code != 200:
                 raise HttpRequestException
@@ -22,14 +22,15 @@ class Falcon(object):
         except Exception as e:
             raise
 
-    def _format_data(self, endpoint, metric, step, value, coutertype, tags):
+    @staticmethod
+    def _format_data(self, endpoint, metric, step, value, countertype, tags):
         data_dict = dict()
         data_dict['endpoint'] = endpoint
         data_dict['metric'] = metric
-        data_dict['timestamp'] = time.time()
+        data_dict['timestamp'] = int(time.time())
         data_dict['step'] = step
         data_dict['value'] = value
-        data_dict['couterType'] = coutertype
+        data_dict['counterType'] = countertype
         if tags:
             data_dict['tags'] = tags
         return data_dict

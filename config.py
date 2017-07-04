@@ -39,27 +39,16 @@ class Config(object):
             }
         },
         'loggers': {
-            'dispatcher': {
+            'monitor': {
                 'handlers': ['file', 'console'],
                 'level': 'INFO'
             }
         }
     }
-    SALT_ROOT="/srv/salt"
+
 
 class DevelopmentConfig(Config):
-
-
-    SQLALCHEMY_DATABASE_URI = "mysql://dispatcher:GomeDevops@DISPATCHER@10.112.2.8:3306/dispatcher?charset=utf8"
-
-    DEBUG = True
-    HOST = "0.0.0.0"
-    PORT = "8080"
-    BACKDOOR_PORT = None
-
-    BROKER_URL = "amqp://admin:Gome@9ijn0okm@10.112.5.24:15600//"
-    #CELERY_BROKER_URL = "amqp://guest@10.112.5.24:15600//"
-    CELERY_RESULT_BACKEND = "db+sqlite:///./results.sqlite"
+    REDIS_SERVER = ''
 
 
 class ProductionConfig(Config):
