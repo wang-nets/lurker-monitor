@@ -71,3 +71,6 @@ CONF = {
     'production':ProductionConfig
 }
 
+global GLOBAL_CONFIG
+GLOBAL_CONFIG = CONF['default']
+

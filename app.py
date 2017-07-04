@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from config import CONF
-from flask import Flask
 import logging
 import logging.config
+import multiprocessing
+from monitor.main import start_monitor
+from config import GLOBAL_CONFIG
 LOG = logging.getLogger("monitor")
 
-app = Flask(__name__)
 
-def create_app(config_name):
-    app.config.from_object(CONF[config_name])
+def create_app():
+
     from logging import Formatter, handlers
     from logging.handlers import RotatingFileHandler
     from logging import StreamHandler
@@ -88,15 +89,15 @@ def create_app(config_name):
             }
         """
 
-        if app.config.get('debug'):
-            if app.config.get('LOG_CFG'):
+        if GLOBAL_CONFIG.DEBUG:
+            if GLOBAL_CONFIG.LOG_CFG:
                 # initialize the Flask logger (removes all handlers)
-                logging.config.dictConfig(app.config.get('LOG_CFG'))
+                logging.config.dictConfig(GLOBAL_CONFIG.LOG_CFG)
             else:
                 # capability with previous config settings
                 # Should have LOG_FILE and LOG_LEVEL set
-                if app.config.get('LOG_FILE')is not None:
-                    handler = RotatingFileHandler(app.config.get('LOG_FILE'), maxBytes=10000000, backupCount=100)
+                if GLOBAL_CONFIG.LOG_FILE is not None:
+                    handler = RotatingFileHandler(GLOBAL_CONFIG.LOG_FILE, maxBytes=10000000, backupCount=100)
                 else:
                     handler = StreamHandler(stream=sys.stderr)
 
@@ -104,16 +105,14 @@ def create_app(config_name):
                     Formatter('%(asctime)s %(levelname)s: %(message)s '
                               '[in %(pathname)s:%(lineno)d]')
                 )
-                logging.getLogger(__name__).setLevel(app.config.get('LOG_LEVEL', 'debug'))
+                logging.getLogger(__name__).setLevel(GLOBAL_CONFIG.LOG_LEVEL)
                 logging.getLogger(__name__).addHandler()
 
     setup_logging()
+    service = multiprocessing.Process(target=start_monitor)
+    service.start()
 
-    from monitor.sched.sched_base import SchedRegistry
-    sched = SchedRegistry()
-    sched.sched_start()
 
-    app.run('0.0.0.0', debug=False)
 
 if __name__ == '__main__':
-    create_app('default')
+    create_app()

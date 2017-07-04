@@ -95,10 +95,10 @@ class NetCollectScheduler(AbstractScheduler):
         return {self._trigger_unit: self._interval, 'next_run_time': self._next_run_time}
 
 
-class CpuCollectSchduler(AbstractScheduler):
+class CpuCollectScheduler(AbstractScheduler):
 
     def __init__(self):
-        super(CpuCollectSchduler, self).__init__()
+        super(CpuCollectScheduler, self).__init__()
         self._interval = 1
 
     def run(self):
@@ -107,10 +107,10 @@ class CpuCollectSchduler(AbstractScheduler):
     def get_trigger_args(self):
         return {self._trigger_unit: self._interval, 'next_run_time': self._next_run_time}
 
-class DiskCollectSchduler(AbstractScheduler):
+class DiskCollectScheduler(AbstractScheduler):
 
     def __init__(self):
-        super(DiskCollectSchduler, self).__init__()
+        super(DiskCollectScheduler, self).__init__()
         self._interval = 1
 
     def run(self):
@@ -120,10 +120,10 @@ class DiskCollectSchduler(AbstractScheduler):
         return {self._trigger_unit: self._interval, 'next_run_time': self._next_run_time}
 
 
-class MemCollectSchduler(AbstractScheduler):
+class MemCollectScheduler(AbstractScheduler):
 
     def __init__(self):
-        super(MemCollectSchduler, self).__init__()
+        super(MemCollectScheduler, self).__init__()
         self._interval = 1
 
     def run(self):

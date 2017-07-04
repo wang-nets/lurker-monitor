@@ -5,17 +5,18 @@ from datetime import datetime
 from monitor.commons.utils import ModuleLoader
 from apscheduler.schedulers.background import BackgroundScheduler
 from monitor.sched import singleton
-from app import app
+from config import GLOBAL_CONFIG
 LOG = logging.getLogger('monitor')
 
 
 @singleton
-class SchedRegistry(object):
+class SchedRegistry():
 
     def __init__(self):
         self._sched = BackgroundScheduler()
-        monitor_class = map(lambda module: "monitor.sched.sched_collect.%sCollectScduler" % module.capitalize(),
-                            [item for item in app.config.get('MONITOR_ITEM')])
+        monitor_class = map(lambda module: "monitor.sched.sched_collect.%sCollectScheduler" % module.capitalize(),
+                            [item for item in GLOBAL_CONFIG.MONITOR_ITEM])
+        print monitor_class
         jobs = ModuleLoader.load_modules(monitor_class)
         for job in jobs:
             self.add_job(job())
