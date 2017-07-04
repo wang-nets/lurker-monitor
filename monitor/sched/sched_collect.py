@@ -91,8 +91,8 @@ class MemCollectService(Thread):
                 mems = mem.collect(instance.name)
                 endpoint = instance.name
                 memory_idle = (mems.total - mems.used) / mems.total
-                falcon.push(endpoint, 'mem.memfree.percent', 60,
-                            memory_idle, 'GAUGE')
+                #falcon.push(endpoint, 'mem.memfree.percent', 60,
+                #            memory_idle, 'GAUGE')
                 print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'mem.memfree.percent', 60,
                                                                           memory_idle)
         except Exception as e:
