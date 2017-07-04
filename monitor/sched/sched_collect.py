@@ -6,6 +6,7 @@ from monitor.modules.mem_collect import MemCollect
 from monitor.modules.net_collect import NetCollect
 from monitor.falcon.falcon import Falcon
 from threading import Thread
+import traceback
 import logging
 LOG = logging.getLogger('monitor')
 
@@ -14,39 +15,45 @@ class NetCollectService(Thread):
 
     def do_collect(self):
         LOG.info("===============Start collect network interface================")
-        net = NetCollect()
-        falcon = Falcon()
-        for instance in net.inspect_instances():
-            vnics = net.collect(instance.name)
-            endpoint = instance.name
-            for nic in vnics:
-                falcon.push(endpoint, 'net.if.out.bytes', 60,
-                            nic[1].tx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
-                print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'net.if.out.bytes', 60,
-                                                                          nic[1].tx_bytes)
-                falcon.push(endpoint, 'net.if.in.bytes', 60,
-                            nic[1].rx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
-                falcon.push(endpoint, 'net.if.out.packets', 60,
-                            nic[1].tx_packets, 'COUNTER', 'iface=%s' % nic[0].name)
-                falcon.push(endpoint, 'net.if.in.packets', 60,
-                            nic[1].rx_packets, 'COUNTER', 'iface=%s' % nic[0].name)
+        try:
+            net = NetCollect()
+            falcon = Falcon()
+            for instance in net.inspect_instances():
+                vnics = net.collect(instance.name)
+                endpoint = instance.name
+                for nic in vnics:
+                    falcon.push(endpoint, 'net.if.out.bytes', 60,
+                                nic[1].tx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
+                    print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'net.if.out.bytes', 60,
+                                                                              nic[1].tx_bytes)
+                    falcon.push(endpoint, 'net.if.in.bytes', 60,
+                                nic[1].rx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
+                    falcon.push(endpoint, 'net.if.out.packets', 60,
+                                nic[1].tx_packets, 'COUNTER', 'iface=%s' % nic[0].name)
+                    falcon.push(endpoint, 'net.if.in.packets', 60,
+                                nic[1].rx_packets, 'COUNTER', 'iface=%s' % nic[0].name)
+        except Exception as e:
+            LOG.error('Collect network info failed: %s' % traceback.format_exc())
 
 
 class CpuCollectService(Thread):
 
     def do_collect(self):
         LOG.info("===============Start collect cpu ================")
-        cpu = CpuCollect()
-        falcon = Falcon()
-        for instance in cpu.inspect_instances():
-            vcpus = cpu.collect(instance.name)
-            endpoint = instance.name
-            cpus = vcpus.inspect_cpus(instance.name)
-            cpu_idle = 100 - float(cpus.util)
-            falcon.push(endpoint, 'cpu.idle', 60,
-                        cpu_idle, 'GAUGE')
-            print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'cpu.idle', 60,
-                                                                      cpu_idle)
+        try:
+            cpu = CpuCollect()
+            falcon = Falcon()
+            for instance in cpu.inspect_instances():
+                vcpus = cpu.collect(instance.name)
+                endpoint = instance.name
+                cpus = vcpus.inspect_cpus(instance.name)
+                cpu_idle = 100 - float(cpus.util)
+                falcon.push(endpoint, 'cpu.idle', 60,
+                            cpu_idle, 'GAUGE')
+                print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'cpu.idle', 60,
+                                                                          cpu_idle)
+        except Exception as e:
+            LOG.error('Collect cpu info failed: %s' % traceback.format_exc())
 
 
 
@@ -54,38 +61,43 @@ class DiskCollectService(Thread):
 
     def do_collect(self):
         LOG.info("===============Start collect disk================")
-        disk = DiskCollect()
-        falcon = Falcon()
-        for instance in disk.inspect_instances():
-            disks = disk.collect(instance.name)
-            endpoint = instance.name
-            for disk in disks:
-                #df.bytes.free.percent/fstype=ext4,mount=/boot
-                used_percent = disk[2].physical / disk[2].total
-                falcon.push(endpoint, 'disk.bytes.free.percent', 60,
-                            used_percent, 'GAUGE', 'dev=%s' % disk[0].device)
-                #disk.io.read_requests/device=sda
-                falcon.push(endpoint, 'disk.io.read_requests', 60,
-                            disk[1].read_requests, 'COUNTER', 'dev=%s' % disk[0].device)
-                falcon.push(endpoint, 'disk.io.write_requests', 60,
-                            disk[1].write_requests, 'COUNTER', 'dev=%s' % disk[0].device)
+        try:
+            disk = DiskCollect()
+            falcon = Falcon()
+            for instance in disk.inspect_instances():
+                disks = disk.collect(instance.name)
+                endpoint = instance.name
+                for disk in disks:
+                    #df.bytes.free.percent/fstype=ext4,mount=/boot
+                    used_percent = disk[2].physical / disk[2].total
+                    falcon.push(endpoint, 'disk.bytes.free.percent', 60,
+                                used_percent, 'GAUGE', 'dev=%s' % disk[0].device)
+                    #disk.io.read_requests/device=sda
+                    falcon.push(endpoint, 'disk.io.read_requests', 60,
+                                disk[1].read_requests, 'COUNTER', 'dev=%s' % disk[0].device)
+                    falcon.push(endpoint, 'disk.io.write_requests', 60,
+                                disk[1].write_requests, 'COUNTER', 'dev=%s' % disk[0].device)
+        except Exception as e:
+            LOG.error('Collect disk info failed: %s' % traceback.format_exc())
 
 
 class MemCollectService(Thread):
 
     def do_collect(self):
         LOG.info("===============Start collect mem================")
-        mem = MemCollect()
-        falcon = Falcon
-        for instance in mem.inspect_instances():
-            mems = mem.collect(instance.name)
-            endpoint = instance.name
-            memory_idle = (mems.total - mems.used) / mems.total
-            falcon.push(endpoint, 'mem.memfree.percent', 60,
-                        memory_idle, 'GAUGE')
-            print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'mem.memfree.percent', 60,
-                                                                      memory_idle)
-
+        try:
+            mem = MemCollect()
+            falcon = Falcon
+            for instance in mem.inspect_instances():
+                mems = mem.collect(instance.name)
+                endpoint = instance.name
+                memory_idle = (mems.total - mems.used) / mems.total
+                falcon.push(endpoint, 'mem.memfree.percent', 60,
+                            memory_idle, 'GAUGE')
+                print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'mem.memfree.percent', 60,
+                                                                          memory_idle)
+        except Exception as e:
+            LOG.error("Collect memory info failed: %s" % traceback.format_exc())
 
 
 class NetCollectScheduler(AbstractScheduler):
@@ -112,6 +124,7 @@ class CpuCollectScheduler(AbstractScheduler):
 
     def get_trigger_args(self):
         return {self._trigger_unit: self._interval, 'next_run_time': self._next_run_time}
+
 
 class DiskCollectScheduler(AbstractScheduler):
 
