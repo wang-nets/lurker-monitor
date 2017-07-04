@@ -22,6 +22,8 @@ class NetCollectService(Thread):
             for nic in vnics:
                 falcon.push(endpoint, 'net.if.out.bytes', 60,
                             nic[1].tx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
+                print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'net.if.out.bytes', 60,
+                                                                          nic[1].tx_bytes)
                 falcon.push(endpoint, 'net.if.in.bytes', 60,
                             nic[1].rx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
                 falcon.push(endpoint, 'net.if.out.packets', 60,
@@ -43,6 +45,8 @@ class CpuCollectService(Thread):
             cpu_idle = 100 - float(cpus.util)
             falcon.push(endpoint, 'cpu.idle', 60,
                         cpu_idle, 'GAUGE')
+            print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'cpu.idle', 60,
+                                                                      cpu_idle)
 
 
 
@@ -79,6 +83,8 @@ class MemCollectService(Thread):
             memory_idle = (mems.total - mems.used) / mems.total
             falcon.push(endpoint, 'mem.memfree.percent', 60,
                         memory_idle, 'GAUGE')
+            print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'mem.memfree.percent', 60,
+                                                                      memory_idle)
 
 
 

@@ -17,7 +17,6 @@ class SchedRegistry():
         self._sched = BlockingScheduler()
         monitor_class = map(lambda module: "monitor.sched.sched_collect.%sCollectScheduler" % module.capitalize(),
                             [item for item in GLOBAL_CONFIG.MONITOR_ITEM])
-        print monitor_class
         jobs = ModuleLoader.load_modules(monitor_class)
         for job in jobs:
             self.add_job(job())
