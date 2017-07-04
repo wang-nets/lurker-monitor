@@ -39,7 +39,7 @@ class Config(object):
             }
         },
         'loggers': {
-            'dispatcher': {
+            'monitor': {
                 'handlers': ['file', 'console'],
                 'level': 'INFO'
             }
