@@ -16,10 +16,10 @@ class NetCollectService(Thread):
     def do_collect(self):
         LOG.info("===============Start collect network interface================")
         try:
-            net = NetCollect()
+            collect = NetCollect()
             falcon = Falcon()
-            for instance in net.inspect_instances():
-                vnics = net.collect(instance.name)
+            for instance in collect.inspect_instances():
+                vnics = collect.collect(instance.name)
                 endpoint = instance.name
                 for nic in vnics:
                     falcon.push(endpoint, 'net.if.out.bytes', 60,
@@ -41,10 +41,10 @@ class CpuCollectService(Thread):
     def do_collect(self):
         LOG.info("===============Start collect cpu ================")
         try:
-            cpu = CpuCollect()
+            collect = CpuCollect()
             falcon = Falcon()
-            for instance in cpu.inspect_instances():
-                vcpus = cpu.collect(instance.name)
+            for instance in collect.inspect_instances():
+                vcpus = collect.collect(instance.name)
                 endpoint = instance.name
                 cpu_idle = 100 - float(vcpus.util)
                 falcon.push(endpoint, 'cpu.idle', 60,
@@ -61,10 +61,10 @@ class DiskCollectService(Thread):
     def do_collect(self):
         LOG.info("===============Start collect disk================")
         try:
-            disk = DiskCollect()
+            collect = DiskCollect()
             falcon = Falcon()
-            for instance in disk.inspect_instances():
-                disks = disk.collect(instance.name)
+            for instance in collect.inspect_instances():
+                disks = collect.collect(instance.name)
                 endpoint = instance.name
                 for disk in disks:
                     #df.bytes.free.percent/fstype=ext4,mount=/boot
@@ -85,10 +85,10 @@ class MemCollectService(Thread):
     def do_collect(self):
         LOG.info("===============Start collect mem================")
         try:
-            mem = MemCollect()
+            collect = MemCollect()
             falcon = Falcon
-            for instance in mem.inspect_instances():
-                mems = mem.collect(instance.name)
+            for instance in collect.inspect_instances():
+                mems = collect.collect(instance.name)
                 endpoint = instance.name
                 memory_idle = (mems.total - mems.used) / mems.total
                 #falcon.push(endpoint, 'mem.memfree.percent', 60,
