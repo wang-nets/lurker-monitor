@@ -46,8 +46,7 @@ class CpuCollectService(Thread):
             for instance in cpu.inspect_instances():
                 vcpus = cpu.collect(instance.name)
                 endpoint = instance.name
-                cpus = vcpus.inspect_cpus(instance.name)
-                cpu_idle = 100 - float(cpus.util)
+                cpu_idle = 100 - float(vcpus.util)
                 falcon.push(endpoint, 'cpu.idle', 60,
                             cpu_idle, 'GAUGE')
                 print "endpoint:%s, metric:%s, timestamp:%s, value:%s" % (endpoint, 'cpu.idle', 60,
