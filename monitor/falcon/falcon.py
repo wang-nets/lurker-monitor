@@ -1,6 +1,6 @@
 import requests
 import json
-from app import MONITOR_CONF
+from config import GLOBAL_CONFIG
 from monitor.exceptions import HttpRequestException
 import time
 import logging
@@ -11,7 +11,7 @@ LOG = logging.getLogger("monitor")
 class Falcon(object):
     def push(self, endpoint, metric, step, value, coutertype, tags = None):
         try:
-            falcon_agent = MONITOR_CONF.FALCON_AGENT
+            falcon_agent = GLOBAL_CONFIG.FALCON_AGENT
             payload = self._format_data(endpoint, metric, step, value, coutertype, tags)
             req = requests.post(falcon_agent, data=json.dumps(payload))
             if req.status_code != 200:
