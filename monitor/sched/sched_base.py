@@ -3,7 +3,8 @@ import abc
 import logging
 from datetime import datetime
 from monitor.commons.utils import ModuleLoader
-from apscheduler.schedulers.background import BackgroundScheduler
+#from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
 from monitor.sched import singleton
 from config import GLOBAL_CONFIG
 LOG = logging.getLogger('monitor')
@@ -13,7 +14,7 @@ LOG = logging.getLogger('monitor')
 class SchedRegistry():
 
     def __init__(self):
-        self._sched = BackgroundScheduler()
+        self._sched = BlockingScheduler()
         monitor_class = map(lambda module: "monitor.sched.sched_collect.%sCollectScheduler" % module.capitalize(),
                             [item for item in GLOBAL_CONFIG.MONITOR_ITEM])
         print monitor_class
