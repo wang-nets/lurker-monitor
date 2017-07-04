@@ -31,9 +31,9 @@ class Collect(object):
             self.connection.getCapabilities()
             return True
         except self.libvirt.libvirtError as e:
-            if (e.get_error_code() == libvirt.VIR_ERR_SYSTEM_ERROR and
-                e.get_error_domain() in (libvirt.VIR_FROM_REMOTE,
-                                         libvirt.VIR_FROM_RPC)):
+            if (e.get_error_code() == self.libvirt.VIR_ERR_SYSTEM_ERROR and
+                e.get_error_domain() in (self.libvirt.VIR_FROM_REMOTE,
+                                         self.libvirt.VIR_FROM_RPC)):
                 return False
             raise
 
@@ -41,7 +41,7 @@ class Collect(object):
         try:
             return self._get_connection().lookupByName(instance_name)
         except Exception as e:
-            if not libvirt or not isinstance(e, libvirt.libvirtError):
+            if not self.libvirt or not isinstance(e, self.libvirt.libvirtError):
                 raise InspectorException(unicode(e))
             error_code = e.get_error_code()
             msg = ("Error from libvirt while looking up %(instance_name)s: "
@@ -63,7 +63,7 @@ class Collect(object):
                             state = 0
                         yield INSTANCE(name=domain.name(),
                                                     UUID=domain.UUIDString(), state=state)
-                except libvirt.libvirtError:
+                except self.libvirt.libvirtError:
                     # Instance was deleted while listing... ignore it
                     pass
 

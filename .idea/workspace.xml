@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f4d49c4-644e-477f-bd37-dc668a5a3bf9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor/sched/sched_collect.py" afterPath="$PROJECT_DIR$/monitor/sched/sched_collect.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor/modules/collect.py" afterPath="$PROJECT_DIR$/monitor/modules/collect.py" />
     </list>
     <ignored path="lurker-moniter.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,11 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="collect.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="collect.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/monitor/modules/collect.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1393">
-              <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
+            <state relative-caret-position="65">
+              <caret line="65" column="28" selection-start-line="65" selection-start-column="28" selection-end-line="65" selection-end-column="28" />
               <folding>
                 <element signature="e#24#100#0" expanded="true" />
               </folding>
@@ -116,10 +116,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sched_collect.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="sched_collect.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monitor/sched/sched_collect.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1042">
+            <state relative-caret-position="-799">
               <caret line="47" column="40" selection-start-line="47" selection-start-column="40" selection-end-line="47" selection-end-column="40" />
               <folding>
                 <element signature="e#24#78#0" expanded="true" />
@@ -176,7 +176,6 @@
         <option value="$PROJECT_DIR$/run.py" />
         <option value="$PROJECT_DIR$/monitor/exceptions.py" />
         <option value="$PROJECT_DIR$/monitor/commons/utils.py" />
-        <option value="$PROJECT_DIR$/monitor/modules/collect.py" />
         <option value="$PROJECT_DIR$/requirements" />
         <option value="$PROJECT_DIR$/config.py" />
         <option value="$PROJECT_DIR$/config.py" />
@@ -185,6 +184,7 @@
         <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/monitor/sched/sched_base.py" />
         <option value="$PROJECT_DIR$/monitor/sched/sched_collect.py" />
+        <option value="$PROJECT_DIR$/monitor/modules/collect.py" />
       </list>
     </option>
   </component>
@@ -966,16 +966,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/monitor/modules/collect.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1393">
-          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
-          <folding>
-            <element signature="e#24#100#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/monitor/modules/cpu_collect.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
@@ -986,10 +976,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/monitor/sched/sched_collect.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1042">
+        <state relative-caret-position="-799">
           <caret line="47" column="40" selection-start-line="47" selection-start-column="40" selection-end-line="47" selection-end-column="40" />
           <folding>
             <element signature="e#24#78#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/monitor/modules/collect.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="65">
+          <caret line="65" column="28" selection-start-line="65" selection-start-column="28" selection-end-line="65" selection-end-column="28" />
+          <folding>
+            <element signature="e#24#100#0" expanded="true" />
           </folding>
         </state>
       </provider>
