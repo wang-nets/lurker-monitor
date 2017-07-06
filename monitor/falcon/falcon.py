@@ -24,6 +24,7 @@ class Falcon(object):
 
     @staticmethod
     def _format_data(endpoint, metric, step, value, countertype, tags):
+        data_list = list()
         data_dict = dict()
         data_dict['endpoint'] = endpoint
         data_dict['metric'] = metric
@@ -33,5 +34,6 @@ class Falcon(object):
         data_dict['counterType'] = countertype
         if tags:
             data_dict['tags'] = tags
-        return data_dict
+        data_list.append(data_dict)
+        return data_list
 
