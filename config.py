@@ -5,9 +5,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     #Rabbitmq
-    FALCON_AGENT = ''
+    FALCON_AGENT = 'http://127.0.0.1:1988/v1/push'
 
     MONITOR_ITEM = ['cpu', 'disk', 'mem', 'net']
+    #MONITOR_ITEM = ['cpu']
     MONITOR_INTERVAL = 1
 
     LOG_CFG = {
