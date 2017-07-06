@@ -23,7 +23,7 @@ class Falcon(object):
             raise
 
     @staticmethod
-    def _format_data(self, endpoint, metric, step, value, countertype, tags):
+    def _format_data(endpoint, metric, step, value, countertype, tags):
         data_dict = dict()
         data_dict['endpoint'] = endpoint
         data_dict['metric'] = metric

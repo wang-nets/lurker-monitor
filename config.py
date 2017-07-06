@@ -4,12 +4,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
-    #Rabbitmq
+    #Falcon
     FALCON_AGENT = ''
 
     MONITOR_ITEM = ['cpu', 'disk', 'mem', 'net']
     MONITOR_INTERVAL = 1
 
+    DEBUG = True
     LOG_CFG = {
         'version': 1,
         'disable_existing_loggers': False,
@@ -21,12 +22,10 @@ class Config(object):
         },
         'handlers': {
             'file': {
-                #'class': 'logging.handlers.RotatingFileHandler',
                 'class': 'logging.handlers.GroupWriteRotatingFileHandler',
                 'level': 'DEBUG',
                 'formatter': 'standard',
                 'filename': '/var/log/monitor/monitor.log',
-                #'filename': 'c://var//log//cloudispatcher//dispatcher.log',
                 'maxBytes': 10485760,
                 'backupCount': 100,
                 'encoding': 'utf8'
