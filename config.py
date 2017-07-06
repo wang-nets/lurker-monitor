@@ -9,9 +9,9 @@ class Config(object):
     FALCON_AGENT = 'http://127.0.0.1:1988/v1/push'
 
     MONITOR_ITEM = ['cpu', 'disk', 'mem', 'net']
-    #MONITOR_ITEM = ['cpu']
     MONITOR_INTERVAL = 1
 
+    DEBUG = True
     LOG_CFG = {
         'version': 1,
         'disable_existing_loggers': False,
@@ -23,12 +23,10 @@ class Config(object):
         },
         'handlers': {
             'file': {
-                #'class': 'logging.handlers.RotatingFileHandler',
                 'class': 'logging.handlers.GroupWriteRotatingFileHandler',
                 'level': 'DEBUG',
                 'formatter': 'standard',
                 'filename': '/var/log/monitor/monitor.log',
-                #'filename': 'c://var//log//cloudispatcher//dispatcher.log',
                 'maxBytes': 10485760,
                 'backupCount': 100,
                 'encoding': 'utf8'
