@@ -4,7 +4,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
-    #Rabbitmq
+    DEBUG = True
+
     FALCON_AGENT = 'http://127.0.0.1:1988/v1/push'
 
     MONITOR_ITEM = ['cpu', 'disk', 'mem', 'net']
@@ -46,21 +47,10 @@ class Config(object):
             }
         }
     }
-    SALT_ROOT="/srv/salt"
+
 
 class DevelopmentConfig(Config):
-
-
-    SQLALCHEMY_DATABASE_URI = "mysql://dispatcher:GomeDevops@DISPATCHER@10.112.2.8:3306/dispatcher?charset=utf8"
-
-    DEBUG = True
-    HOST = "0.0.0.0"
-    PORT = "8080"
-    BACKDOOR_PORT = None
-
-    BROKER_URL = "amqp://admin:Gome@9ijn0okm@10.112.5.24:15600//"
-    #CELERY_BROKER_URL = "amqp://guest@10.112.5.24:15600//"
-    CELERY_RESULT_BACKEND = "db+sqlite:///./results.sqlite"
+    REDIS_SERVER = ''
 
 
 class ProductionConfig(Config):
