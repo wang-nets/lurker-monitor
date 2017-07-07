@@ -10,6 +10,9 @@ LOG = logging.getLogger("monitor")
 
 class Falcon(object):
     def push(self, endpoint, metric, step, value, countertype, tags = None):
+        '''
+        push data to falcon agent
+        '''
         try:
             falcon_agent = GLOBAL_CONFIG.FALCON_AGENT
             payload = self._format_data(endpoint, metric, step, value, countertype, tags)
@@ -24,6 +27,17 @@ class Falcon(object):
 
     @staticmethod
     def _format_data(endpoint, metric, step, value, countertype, tags):
+        '''
+
+        :param endpoint: hostname
+        :param metric: monitor item cpu.idle ..
+        :param step: interval, the default is 60s
+        :param value: value
+        :param countertype: the type of item, GAUGE or COUNTER
+        :param tags: item tag
+        :return:
+        The format of falcon data must be list
+        '''
         data_list = list()
         data_dict = dict()
         data_dict['endpoint'] = endpoint

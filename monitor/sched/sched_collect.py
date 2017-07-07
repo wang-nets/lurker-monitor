@@ -86,7 +86,7 @@ class MemCollectService(Thread):
         LOG.info("===============Start collect mem================")
         try:
             collect = MemCollect()
-            falcon = Falcon
+            falcon = Falcon()
             for instance in collect.inspect_instances():
                 mems = collect.collect(instance.name)
                 endpoint = instance.name
