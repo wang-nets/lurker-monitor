@@ -47,10 +47,10 @@ class Config(object):
 
 
 class DevelopmentConfig(Config):
-    REDIS_SERVER = '10.112.65.56'
+    REDIS_SERVER = ''
     REDIS_PORT = 6378
     REDIS_DB = 0
-    REDIS_PASSWD = 'am22Pk8z36UU9ka'
+    REDIS_PASSWD = ''
 
 
 class ProductionConfig(Config):
