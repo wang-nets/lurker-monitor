@@ -21,7 +21,7 @@ class FalconApi(object):
             json_data = req.json()
             return json_data['sig']
         except requests.HTTPError:
-            print "Connect falcon error"
+            print "Connect falcon error:%s" % req.text
             pass
         except Exception as e:
             print "Error in [_auth_session]:%s" % traceback.format_exc()
@@ -47,7 +47,7 @@ class FalconApi(object):
             print "Host list must be list"
             pass
         except requests.HTTPError:
-            print "Connect falcon error"
+            print "Connect falcon error:%s" % req.text
             pass
         except Exception as e:
             print "Error in [_auth_session]:%s" % traceback.format_exc()
