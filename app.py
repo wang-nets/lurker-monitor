@@ -4,6 +4,7 @@ import logging
 import logging.config
 import multiprocessing
 from monitor.main import start_monitor
+from tools.main import start_redis
 from config import GLOBAL_CONFIG
 LOG = logging.getLogger("monitor")
 
@@ -18,6 +19,7 @@ def create_app():
     import os
     import stat
     import sys
+
 
     class GroupWriteRotatingFileHandler(handlers.RotatingFileHandler):
         def doRollover(self):
@@ -109,8 +111,16 @@ def create_app():
                 logging.getLogger(__name__).addHandler()
 
     setup_logging()
-    service = multiprocessing.Process(target=start_monitor)
-    service.start()
+    service_list = list()
+    if 'monitor' in GLOBAL_CONFIG.METHOD:
+        service = multiprocessing.Process(target=start_monitor)
+        service_list.append(service)
+    if 'redis' in GLOBAL_CONFIG.METHOD:
+        service = multiprocessing.Process(target=start_redis)
+        service_list.append(service)
+        
+    for service in service_list:
+        service.start()
 
 
 

@@ -52,6 +52,13 @@ class DevelopmentConfig(Config):
     REDIS_DB = 0
     REDIS_PASSWD = ''
 
+    FALCON_API_ENDPOINT = 'http://falcon.pt.gomedc.com:8080'
+    FALCON_USER = ''
+    FALCON_PASSWORD = ''
+    FALCON_HOST_GROUP_ID = 7
+
+    #METHOD = ['monitor', 'redis']
+    METHOD = ['redis']
 
 class ProductionConfig(Config):
     pass
