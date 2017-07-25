@@ -118,7 +118,7 @@ def create_app():
     if 'redis' in GLOBAL_CONFIG.METHOD:
         service = multiprocessing.Process(target=start_redis)
         service_list.append(service)
-        
+
     for service in service_list:
         service.start()
 
