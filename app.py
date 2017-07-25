@@ -4,7 +4,7 @@ import logging
 import logging.config
 import multiprocessing
 from monitor.main import start_monitor
-from tools.main import start_redis
+from tools.main import start_tools
 from config import GLOBAL_CONFIG
 LOG = logging.getLogger("monitor")
 
@@ -115,8 +115,8 @@ def create_app():
     if 'monitor' in GLOBAL_CONFIG.METHOD:
         service = multiprocessing.Process(target=start_monitor)
         service_list.append(service)
-    if 'redis' in GLOBAL_CONFIG.METHOD:
-        service = multiprocessing.Process(target=start_redis)
+    if 'tools' in GLOBAL_CONFIG.METHOD:
+        service = multiprocessing.Process(target=start_tools)
         service_list.append(service)
 
     for service in service_list:

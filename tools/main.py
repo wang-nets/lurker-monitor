@@ -1,7 +1,7 @@
 from tools.sched.sched_base import SchedRegistry
 
 
-class RedisService(object):
+class ToolsService(object):
     def __init__(self):
         self.sched = SchedRegistry()
 
@@ -9,6 +9,6 @@ class RedisService(object):
         self.sched.sched_start()
 
 
-def start_redis():
-    service = RedisService()
+def start_tools():
+    service = ToolsService()
     service.start_service()

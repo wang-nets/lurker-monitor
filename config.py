@@ -57,9 +57,10 @@ class DevelopmentConfig(Config):
     FALCON_PASSWORD = ''
     FALCON_HOST_GROUP_ID = 7
 
-    #METHOD = ['monitor', 'redis']
-    METHOD = ['redis']
+    #METHOD = ['monitor', 'tools']
+    METHOD = ['tools']
 
+    TOOLS_ITEM = ['redis']
 
 class ProductionConfig(Config):
     pass
