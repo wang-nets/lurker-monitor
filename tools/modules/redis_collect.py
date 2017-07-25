@@ -1,6 +1,7 @@
 import redis
 from config import GLOBAL_CONFIG
 import json
+import traceback
 
 
 class RedisCollect(object):
@@ -21,6 +22,8 @@ class RedisCollect(object):
 
             return host_list
         except ValueError:
+            print "Cannot find hostname in redis"
             pass
         except Exception as e:
+            print "Error in [traverse_redis]:%s" % traceback.format_exc()
             pass

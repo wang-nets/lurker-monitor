@@ -1,7 +1,7 @@
 import requests
 import json
 from config import GLOBAL_CONFIG
-
+import traceback
 
 class FalconApi(object):
     def __init__(self):
@@ -21,8 +21,10 @@ class FalconApi(object):
             json_data = req.json()
             return json_data['sig']
         except requests.HTTPError:
+            print "Connect falcon error"
             pass
         except Exception as e:
+            print "Error in [_auth_session]:%s" % traceback.format_exc()
             pass
 
     def add_host_to_hostgroup(self, host_list, hostgroup_id):
@@ -42,8 +44,11 @@ class FalconApi(object):
             req = requests.post(url=api, data=payload, headers=headers)
             req.raise_for_status()
         except TypeError:
+            print "Host list must be list"
             pass
         except requests.HTTPError:
+            print "Connect falcon error"
             pass
         except Exception as e:
+            print "Error in [_auth_session]:%s" % traceback.format_exc()
             pass
