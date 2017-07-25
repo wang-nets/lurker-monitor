@@ -60,6 +60,7 @@ class DevelopmentConfig(Config):
     #METHOD = ['monitor', 'redis']
     METHOD = ['redis']
 
+
 class ProductionConfig(Config):
     pass
 
