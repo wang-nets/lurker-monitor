@@ -31,4 +31,4 @@ class MemCollect(Collect):
                 util = (rss / actual) * 100
                 return MEMORY(total=actual, used=rss, util=util)
             except self.libvirt.libvirtError:
-                pass
+                raise

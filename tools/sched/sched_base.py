@@ -2,10 +2,10 @@
 import abc
 import logging
 from datetime import datetime
-from monitor.commons.utils import ModuleLoader
 from apscheduler.schedulers.blocking import BlockingScheduler
-from monitor.sched import singleton
+from tools.sched import singleton
 from config import GLOBAL_CONFIG
+from tools.commons.utils import ModuleLoader
 LOG = logging.getLogger('monitor')
 
 
@@ -14,11 +14,12 @@ class SchedRegistry():
 
     def __init__(self):
         self._sched = BlockingScheduler()
-        monitor_class = map(lambda module: "monitor.sched.sched_collect.%sCollectScheduler" % module.capitalize(),
-                            [item for item in GLOBAL_CONFIG.MONITOR_ITEM])
-        jobs = ModuleLoader.load_modules(monitor_class)
+        tools_class = map(lambda module: "tools.sched.sched_collect.%sCollectScheduler" % module.capitalize(),
+                            [item for item in GLOBAL_CONFIG.TOOLS_ITEM])
+        jobs = ModuleLoader.load_modules(tools_class)
         for job in jobs:
             self.add_job(job())
+
 
     def list_jobs(self):
         return self._sched.get_jobs()

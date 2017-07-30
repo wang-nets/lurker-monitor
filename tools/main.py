@@ -1,7 +1,7 @@
-from monitor.sched.sched_base import SchedRegistry
+from tools.sched.sched_base import SchedRegistry
 
 
-class MonitorService(object):
+class ToolsService(object):
     def __init__(self):
         self.sched = SchedRegistry()
 
@@ -9,6 +9,6 @@ class MonitorService(object):
         self.sched.sched_start()
 
 
-def start_monitor():
-    service = MonitorService()
+def start_tools():
+    service = ToolsService()
     service.start_service()

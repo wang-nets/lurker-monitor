@@ -5,6 +5,7 @@ from lxml import etree
 INTERFACE = collections.namedtuple('Interface', ['name', 'mac','fref', 'parameters'])
 INTERFACE_STATS = collections.namedtuple('InterfaceStats',['rx_bytes', 'rx_packets','tx_bytes', 'tx_packets'])
 
+
 class NetCollect(Collect):
     def collect_for_down(self, instance_name):
         domain = self._lookup_by_name(instance_name)
@@ -58,4 +59,4 @@ class NetCollect(Collect):
                                         tx_packets=tx_packets)
                 yield (interface, stats)
             except self.libvirt.libvirtError:
-                pass
+                raise

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
-import collections
+
 
 class Config(object):
-    #Rabbitmq
-    FALCON_AGENT = ''
+    DEBUG = True
+    #Falcon Configure
+    FALCON_AGENT = 'http://127.0.0.1:1988/v1/push'
 
     MONITOR_ITEM = ['cpu', 'disk', 'mem', 'net']
     MONITOR_INTERVAL = 1
@@ -21,12 +22,10 @@ class Config(object):
         },
         'handlers': {
             'file': {
-                #'class': 'logging.handlers.RotatingFileHandler',
                 'class': 'logging.handlers.GroupWriteRotatingFileHandler',
                 'level': 'DEBUG',
                 'formatter': 'standard',
-                'filename': '/home/dispatcher/log/dispatcher.log',
-                #'filename': 'c://var//log//cloudispatcher//dispatcher.log',
+                'filename': '/var/log/monitor/monitor.log',
                 'maxBytes': 10485760,
                 'backupCount': 100,
                 'encoding': 'utf8'
@@ -39,28 +38,29 @@ class Config(object):
             }
         },
         'loggers': {
-            'dispatcher': {
+            'monitor': {
                 'handlers': ['file', 'console'],
                 'level': 'INFO'
             }
         }
     }
-    SALT_ROOT="/srv/salt"
+
 
 class DevelopmentConfig(Config):
+    REDIS_SERVER = ''
+    REDIS_PORT = 6378
+    REDIS_DB = 0
+    REDIS_PASSWD = ''
 
+    FALCON_API_ENDPOINT = 'http://falcon.pt.gomedc.com:8080'
+    FALCON_USER = ''
+    FALCON_PASSWORD = ''
+    FALCON_HOST_GROUP_ID = 7
 
-    SQLALCHEMY_DATABASE_URI = "mysql://dispatcher:GomeDevops@DISPATCHER@10.112.2.8:3306/dispatcher?charset=utf8"
+    #METHOD = ['monitor', 'tools']
+    METHOD = ['tools']
 
-    DEBUG = True
-    HOST = "0.0.0.0"
-    PORT = "8080"
-    BACKDOOR_PORT = None
-
-    BROKER_URL = "amqp://admin:Gome@9ijn0okm@10.112.5.24:15600//"
-    #CELERY_BROKER_URL = "amqp://guest@10.112.5.24:15600//"
-    CELERY_RESULT_BACKEND = "db+sqlite:///./results.sqlite"
-
+    TOOLS_ITEM = ['redis']
 
 class ProductionConfig(Config):
     pass
@@ -70,4 +70,7 @@ CONF = {
     'develop':DevelopmentConfig,
     'production':ProductionConfig
 }
+
+global GLOBAL_CONFIG
+GLOBAL_CONFIG = CONF['default']
 
