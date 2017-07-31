@@ -5,7 +5,7 @@ from datetime import datetime
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-from cfg import GLOBAL_CONFIG
+from monitor.cfg import GLOBAL_CONFIG
 from monitor.commons.utils import ModuleLoader
 from monitor.sched import singleton
 

@@ -63,7 +63,19 @@ class DevelopmentConfig(Config):
     TOOLS_ITEM = ['redis']
 
 class ProductionConfig(Config):
-    pass
+    REDIS_SERVER = 'cache01w.pt.gomedc.com'
+    REDIS_PORT = 6378
+    REDIS_DB = 0
+    REDIS_PASSWD = 'am22Pk8z36UU9ka'
+
+    FALCON_API_ENDPOINT = 'http://falcon.pt.gomedc.com:8080'
+    FALCON_USER = 'falcon'
+    FALCON_PASSWORD = 'Gome@9ijn0okm'
+    FALCON_HOST_GROUP_ID = 4
+
+    METHOD = ['monitor']
+    #METHOD = ['tools']
+    TOOLS_ITEM = ['redis']
 
 CONF = {
     'default':DevelopmentConfig,
@@ -72,5 +84,5 @@ CONF = {
 }
 
 global GLOBAL_CONFIG
-GLOBAL_CONFIG = CONF['default']
+GLOBAL_CONFIG = CONF['production']
 
