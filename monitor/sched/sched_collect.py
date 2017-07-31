@@ -69,7 +69,7 @@ class DiskCollectService(Thread):
                         disk_idle = 0
                         disk_free = 0
                     else:
-                        disk_idle = float('%.2f' % float(disk[2].physical) / float(disk[2].total)) * 100
+                        disk_idle = float('%.2f' % float(disk[2].physical)) / float(disk[2].total) * 100
                         disk_free = float('%.2f' % float(disk[2].physical))
                     falcon.push(endpoint, 'disk.bytes.free.percent', 60,
                                 disk_idle, 'GAUGE', 'dev=%s' % disk[0].device)
