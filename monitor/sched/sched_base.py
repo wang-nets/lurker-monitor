@@ -2,10 +2,13 @@
 import abc
 import logging
 from datetime import datetime
-from monitor.commons.utils import ModuleLoader
+
 from apscheduler.schedulers.blocking import BlockingScheduler
+
+from monitor.cfg import GLOBAL_CONFIG
+from monitor.commons.utils import ModuleLoader
 from monitor.sched import singleton
-from cfg import GLOBAL_CONFIG
+
 LOG = logging.getLogger('monitor')
 
 

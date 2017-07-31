@@ -12,7 +12,7 @@ setup(
     ],
     entry_points = {
         'console_scripts': [
-            'nightwatcher = app:main',
+            'nightwatcher = monitor.app:main',
         ]
     }
 )
