@@ -2,8 +2,10 @@
 import logging
 import logging.config
 import multiprocessing
-from monitor.main import start_monitor
+
 from cfg import GLOBAL_CONFIG
+from monitor.main import start_monitor
+
 LOG = logging.getLogger("monitor")
 
 

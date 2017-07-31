@@ -5,7 +5,7 @@ import time
 import requests
 from redis import Redis
 
-from monitor.cfg import GLOBAL_CONFIG
+from cfg import GLOBAL_CONFIG
 from monitor.exceptions import HttpRequestException,RedisNotFoundException
 
 LOG = logging.getLogger("monitor")
