@@ -69,15 +69,16 @@ class DiskCollectService(Thread):
                         disk_idle = 0
                         disk_free = 0
                     else:
-                        disk_idle = float('%.2f' % float(disk[2].physical)) / float(disk[2].total) * 100
-                        disk_free = float('%.2f' % float(disk[2].physical))
+                        disk_idle = (float(disk[2].total) - float('%.2f' % float(disk[2].physical))) \
+                                    / float(disk[2].total) * 100
+                        disk_free = float('%.2f' % (float(disk[2].total) - float('%.2f' % float(disk[2].physical))))
                     falcon.push(endpoint, 'disk.bytes.free.percent', 60,
                                 disk_idle, 'GAUGE', 'dev=%s' % disk[0].device)
-                    LOG.debug("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'disk.bytes.free.percent',
+                    LOG.info("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'disk.bytes.free.percent',
                                                                          disk_idle))
                     falcon.push(endpoint, 'disk.bytes.free', 60,
                                 disk_free , 'GAUGE', 'dev=%s' % disk[0].device)
-                    LOG.debug("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'disk.bytes.free',
+                    LOG.info("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'disk.bytes.free',
                                                                          disk_free))
                     #disk.io.read_requests/device=sda
                     falcon.push(endpoint, 'disk.io.read_requests', 60,
@@ -102,15 +103,15 @@ class MemCollectService(Thread):
                     memory_idle = 0
                     memory_free = 0
                 else:
-                    memory_idle = mems.util
-                    memory_free = mems.total - mems.used
+                    memory_idle = 100 - mems.util
+                    memory_free = mems.used * 1024
                 falcon.push(endpoint, 'mem.memfree.percent', 60,
                             memory_idle, 'GAUGE')
-                LOG.debug("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'mem.memfree.percent',
+                LOG.info("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'mem.memfree.percent',
                                                                     memory_idle))
                 falcon.push(endpoint, 'mem.memfree', 60,
                             memory_free, 'GAUGE')
-                LOG.debug("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'mem.memfree',
+                LOG.info("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'mem.memfree',
                                                                     memory_free))
 
         except Exception as e:
