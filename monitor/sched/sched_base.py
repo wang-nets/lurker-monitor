@@ -5,7 +5,7 @@ from datetime import datetime
 from monitor.commons.utils import ModuleLoader
 from apscheduler.schedulers.blocking import BlockingScheduler
 from monitor.sched import singleton
-from config import GLOBAL_CONFIG
+from cfg import GLOBAL_CONFIG
 LOG = logging.getLogger('monitor')
 
 

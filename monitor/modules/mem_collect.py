@@ -16,7 +16,7 @@ class MemCollect(Collect):
             domain.setMemoryStatsPeriod(5)
             free_mem = float(domain.memoryStats()['unused'])
             total_mem = float(domain.memoryStats()['available'])
-            util = ((total_mem - free_mem) / total_mem) * 100
+            util = (float(total_mem - free_mem) / float(total_mem)) * 100
             return MEMORY(total=total_mem, used=total_mem - free_mem, util=util)
         except:
             try:

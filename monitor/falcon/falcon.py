@@ -1,6 +1,6 @@
 import requests
 import json
-from config import GLOBAL_CONFIG
+from cfg import GLOBAL_CONFIG
 from monitor.exceptions import HttpRequestException,RedisNotFoundException
 import time
 import logging

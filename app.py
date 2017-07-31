@@ -1,25 +1,20 @@
 # -*- coding: utf-8 -*-
-from config import CONF
 import logging
 import logging.config
 import multiprocessing
 from monitor.main import start_monitor
-from tools.main import start_tools
-from config import GLOBAL_CONFIG
+from cfg import GLOBAL_CONFIG
 LOG = logging.getLogger("monitor")
 
 
 def create_app():
-
     from logging import Formatter, handlers
     from logging.handlers import RotatingFileHandler
     from logging import StreamHandler
     from logging.config import dictConfig
-    from logging import DEBUG
     import os
     import stat
     import sys
-
 
     class GroupWriteRotatingFileHandler(handlers.RotatingFileHandler):
         def doRollover(self):
@@ -115,14 +110,10 @@ def create_app():
     if 'monitor' in GLOBAL_CONFIG.METHOD:
         service = multiprocessing.Process(target=start_monitor)
         service_list.append(service)
-    if 'tools' in GLOBAL_CONFIG.METHOD:
-        service = multiprocessing.Process(target=start_tools)
-        service_list.append(service)
 
     for service in service_list:
         service.start()
 
 
-
-if __name__ == '__main__':
+def main():
     create_app()
