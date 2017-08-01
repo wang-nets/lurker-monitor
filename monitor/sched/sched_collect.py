@@ -22,10 +22,12 @@ class NetCollectService(Thread):
                 vnics = collect.collect(instance.name)
                 endpoint = instance.name
                 for nic in vnics:
+                    tx_bytes = nic[1].tx_bytes * 10
                     falcon.push(endpoint, 'net.if.out.bytes', 60,
-                                nic[1].tx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
+                                tx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
+                    rx_bytes = nic[1].rx_bytes * 10
                     falcon.push(endpoint, 'net.if.in.bytes', 60,
-                                nic[1].rx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
+                                rx_bytes, 'COUNTER', 'iface=%s' % nic[0].name)
                     falcon.push(endpoint, 'net.if.out.packets', 60,
                                 nic[1].tx_packets, 'COUNTER', 'iface=%s' % nic[0].name)
                     falcon.push(endpoint, 'net.if.in.packets', 60,
@@ -72,13 +74,15 @@ class DiskCollectService(Thread):
                         disk_idle = (float(disk[2].total) - float('%.2f' % float(disk[2].physical))) \
                                     / float(disk[2].total) * 100
                         disk_free = float('%.2f' % (float(disk[2].total) - float('%.2f' % float(disk[2].physical))))
+                    LOG.info("Disk data[endpoint:%s]:total:%s, pysical:%s, allocation:%s" %
+                             (endpoint, disk[2].total, disk[2].physical, disk[2].allocation))
                     falcon.push(endpoint, 'disk.bytes.free.percent', 60,
                                 disk_idle, 'GAUGE', 'dev=%s' % disk[0].device)
-                    LOG.info("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'disk.bytes.free.percent',
+                    LOG.debug("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'disk.bytes.free.percent',
                                                                          disk_idle))
                     falcon.push(endpoint, 'disk.bytes.free', 60,
                                 disk_free , 'GAUGE', 'dev=%s' % disk[0].device)
-                    LOG.info("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'disk.bytes.free',
+                    LOG.debug("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'disk.bytes.free',
                                                                          disk_free))
                     #disk.io.read_requests/device=sda
                     falcon.push(endpoint, 'disk.io.read_requests', 60,
@@ -107,11 +111,11 @@ class MemCollectService(Thread):
                     memory_free = (mems.total - mems.used) * 1024
                 falcon.push(endpoint, 'mem.memfree.percent', 60,
                             memory_idle, 'GAUGE')
-                LOG.info("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'mem.memfree.percent',
+                LOG.debug("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'mem.memfree.percent',
                                                                     memory_idle))
                 falcon.push(endpoint, 'mem.memfree', 60,
                             memory_free, 'GAUGE')
-                LOG.info("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'mem.memfree',
+                LOG.debug("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'mem.memfree',
                                                                     memory_free))
 
         except Exception as e:

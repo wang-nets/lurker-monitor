@@ -43,6 +43,6 @@ class DiskCollect(Collect):
                 disk_size = [0, 0, 0]
 
             finally:
-                size = DISK_SIZE(total=disk_size[0] / (1024 * 1024), allocation=disk_size[1] / (1024 * 1024),
-                                 physical=disk_size[2] / (1024 * 1024))
+                size = DISK_SIZE(total=disk_size[0] , allocation=disk_size[1] ,
+                                 physical=disk_size[2])
                 yield (disk, stats, size)
