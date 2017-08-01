@@ -104,7 +104,7 @@ class MemCollectService(Thread):
                     memory_free = 0
                 else:
                     memory_idle = 100 - mems.util
-                    memory_free = mems.used * 1024
+                    memory_free = (mems.total - mems.used) * 1024
                 falcon.push(endpoint, 'mem.memfree.percent', 60,
                             memory_idle, 'GAUGE')
                 LOG.info("Push data[endpoint:%s, counter:%s]:%s" % (endpoint, 'mem.memfree.percent',
