@@ -25,7 +25,7 @@ class Config(object):
                 'class': 'logging.handlers.GroupWriteRotatingFileHandler',
                 'level': 'DEBUG',
                 'formatter': 'standard',
-                'filename': '/var/log/monitor/monitor.log',
+                'filename': '/home/work/log/monitor/monitor.log',
                 'maxBytes': 10485760,
                 'backupCount': 100,
                 'encoding': 'utf8'
