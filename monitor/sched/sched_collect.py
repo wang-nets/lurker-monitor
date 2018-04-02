@@ -71,7 +71,7 @@ class DiskCollectService(Thread):
                         disk_idle = 0
                         disk_free = 0
                     else:
-                        disk_free = float(disk[2].total) - float(disk[2].physical) - float(disk[2].allocation)
+                        disk_free = float(disk[2].total) - float(disk[2].allocation)
                         disk_idle = disk_free / float(disk[2].total) * 100
 
                     LOG.debug("Disk data[endpoint:%s, tag:%s]:total:%s, pysical:%s, allocation:%s" %
